@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.edu.bupt.hover.scaffold.mapper.mysql.MySqlKeepMapper">
-  <select id="insertOnePerson">
-    insert into person values(#{person.name})
-  </select>
+  <insert id="insertOnePerson">
+    insert into person (name) values(#{person.name})
+  </insert>
 </mapper>

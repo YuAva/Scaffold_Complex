@@ -1,41 +1,33 @@
 package cn.edu.bupt.hover.scaffold.configurations;
 
-import com.alibaba.druid.pool.xa.DruidXADataSource;
+import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
-import javax.sql.XADataSource;
 
 @Configuration
 @MapperScan(
         basePackages = {"cn.edu.bupt.hover.scaffold.mapper.neo4j"},
-        sqlSessionFactoryRef = "neo4jSqlSessionFactory",
         sqlSessionTemplateRef = "neo4jSqlSessionTemplate"
 )
 public class Neo4jDataSourceConfiguration {
 
-    @Bean(name = "neo4jXADataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.neo4j")
-    public XADataSource XADataSource() {
-        return new DruidXADataSource();
-    }
-
     @Bean(name = "neo4jDataSource")
-    public DataSource DataSource() {
-        AtomikosDataSourceBean atomikosDataSourceBean = new AtomikosDataSourceBean();
-        atomikosDataSourceBean.setXaDataSource(XADataSource());
-        atomikosDataSourceBean.setMaxPoolSize(20); // default 1
-        return atomikosDataSourceBean;
+    @ConfigurationProperties(prefix = "spring.datasource.neo4j")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().type(DruidDataSource.class).build();
     }
 
     @Bean(name = "neo4jSqlSessionFactory")
@@ -54,5 +46,10 @@ public class Neo4jDataSourceConfiguration {
     @Bean(name = "neo4jSqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("neo4jSqlSessionFactory") SqlSessionFactory sessionFactory) {
         return new SqlSessionTemplate(sessionFactory);
+    }
+
+    @Bean(name = "neo4jTransactionManager")
+    public DataSourceTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
     }
 }

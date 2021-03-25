@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.edu.bupt.hover.scaffold.mapper.neo4j.Neo4jKeepMapper">
-  <select id="insertOnePerson">
-    create(p:Person{born: 2000, name: "Liu Xiangyu"})
-  </select>
+  <insert id="insertOnePerson">
+    create(p:Person{born: 2000, name: "Liu Aoyu"})
+  </insert>
 </mapper>

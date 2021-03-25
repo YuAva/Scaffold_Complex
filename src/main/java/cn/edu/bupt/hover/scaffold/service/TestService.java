@@ -15,9 +15,11 @@ public class TestService {
     @Autowired
     private Neo4jKeepMapper neo4jKeepMapper;
 
-    @Transactional
+
+    @Transactional(transactionManager = "chainedTransactionManager")
     public void testRollBack() {
         mySqlKeepMapper.insertOnePerson(new Person("Liu Xiangyu"));
         neo4jKeepMapper.insertOnePerson();
+//        int a = 1/0;
     }
 }

@@ -50,7 +50,7 @@
     <!--druid datasource-->
     <dependency>
       <groupId>com.alibaba</groupId>
-      <artifactId>druid-spring-boot-starter</artifactId>
+      <artifactId>druid</artifactId>
       <version>1.2.5</version>
     </dependency>
 
@@ -61,14 +61,9 @@
       <version>2.1.4</version>
     </dependency>
 
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-jdbc</artifactId>-->
-<!--    </dependency>-->
-
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-commons</artifactId>
     </dependency>
   </dependencies>
 
